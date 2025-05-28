@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sigma Admin Panel</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
@@ -11,6 +11,7 @@
       font-family: 'Orbitron', sans-serif;
       text-align: center;
       color: white;
+      padding: 50px;
       margin: 0;
       overflow: hidden;
       background: linear-gradient(270deg, #000, #1a1a1a, #000);
@@ -24,20 +25,19 @@
       100% { background-position: 0% 50%; }
     }
 
-    .container, .login-container, .loading-screen {
+    .container {
       background-color: rgba(0, 0, 0, 0.7);
       border: 3px solid gold;
       padding: 20px;
       display: inline-block;
-      width: 350px;
+      width: 400px;
       border-radius: 10px;
       box-shadow: 0 0 20px gold;
-      margin-top: 10%;
     }
 
     h1 {
       color: gold;
-      font-size: 32px;
+      font-size: 28px;
       margin-bottom: 10px;
     }
 
@@ -51,55 +51,54 @@
       color: gold;
     }
 
-    .controls {
-      margin-top: 20px;
-    }
-
-    .controls button, .controls input[type=range] {
+    .controls button,
+    .controls input[type=range] {
       margin: 5px;
     }
 
-    .login-container input {
-      width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 5px;
-    }
-
-    .login-container button {
-      padding: 10px 20px;
-      font-weight: bold;
+    #toolbox-toggle {
       background-color: gold;
-      color: black;
       border: none;
-      border-radius: 5px;
+      padding: 10px 20px;
+      color: black;
+      font-weight: bold;
       cursor: pointer;
+      margin-top: 20px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
     }
 
-    .hidden {
+    #toolbox-toggle:hover {
+      background-color: darkorange;
+    }
+
+    #toolbox {
       display: none;
+      margin-top: 15px;
+      max-height: 300px;
+      overflow-y: auto;
+      text-align: left;
+      border-top: 2px solid gold;
+      padding-top: 10px;
     }
 
-    /* Loading screen */
-    .loading-spinner {
-      border: 8px solid rgba(255, 215, 0, 0.2);
-      border-top: 8px solid gold;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      margin: 20px auto;
-      animation: spin 1s linear infinite;
+    .category {
+      margin-bottom: 10px;
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .loading-screen p {
-      color: gold;
+    .category h2 {
+      color: lightgreen;
       font-size: 18px;
+      margin: 10px 0 5px;
+    }
+
+    .category ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .category ul li {
+      margin: 4px 0;
     }
   </style>
 </head>
@@ -111,23 +110,7 @@
     Your browser does not support the audio element.
   </audio>
 
-  <!-- Login Screen -->
-  <div id="login" class="login-container">
-    <h1>Sigma Login</h1>
-    <input type="text" id="username" placeholder="Username" /><br>
-    <input type="password" id="password" placeholder="Password" /><br>
-    <button onclick="login()">Enter</button>
-    <p id="login-message" style="color:red;"></p>
-  </div>
-
-  <!-- Fake Loading Screen -->
-  <div id="loading" class="loading-screen hidden">
-    <div class="loading-spinner"></div>
-    <p>Loading Sigma Control Room...</p>
-  </div>
-
-  <!-- Main Admin Panel -->
-  <div id="admin-panel" class="container hidden">
+  <div class="container" id="admin-panel">
     <h1>Admin Panel</h1>
     <p>Welcome to the Sigma Control Room</p>
 
@@ -146,32 +129,52 @@
       <button onclick="toggleMute()">Mute/Unmute</button><br>
       <input type="range" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
     </div>
+
+    <!-- Toolbox Toggle -->
+    <button id="toolbox-toggle" onclick="toggleToolbox()">Open Sigma Toolbox</button>
+
+    <!-- Toolbox Content -->
+    <div id="toolbox">
+      <div class="category">
+        <h2>Media Tools</h2>
+        <ul>
+          <li><a href="https://ytmp3.nu/" target="_blank">YouTube MP3 Downloader</a></li>
+          <li><a href="https://www.photopea.com/" target="_blank">Photopea (Free Photoshop)</a></li>
+        </ul>
+      </div>
+
+      <div class="category">
+        <h2>Dev Tools</h2>
+        <ul>
+          <li><a href="https://codepen.io/" target="_blank">CodePen</a></li>
+          <li><a href="https://jsonformatter.org/" target="_blank">JSON Formatter</a></li>
+          <li><a href="https://github.com/" target="_blank">GitHub</a></li>
+        </ul>
+      </div>
+
+      <div class="category">
+        <h2>Security / Privacy</h2>
+        <ul>
+          <li><a href="https://www.virustotal.com/" target="_blank">VirusTotal</a></li>
+          <li><a href="https://privnote.com/" target="_blank">PrivNote</a></li>
+          <li><a href="https://temp-mail.org/" target="_blank">Temp Mail</a></li>
+          <li><a href="https://10minutemail.com/" target="_blank">10 Minute Mail</a></li>
+        </ul>
+      </div>
+
+      <div class="category">
+        <h2>Misc / Access</h2>
+        <ul>
+          <li><a href="https://pastebin.com/" target="_blank">Pastebin</a></li>
+          <li><a href="https://unblocked-games.s3.amazonaws.com/index.html" target="_blank">Unblocked Games Mirror</a></li>
+          <li><a href="https://exploitdb.com/" target="_blank">Exploit DB</a></li>
+          <li><a href="https://www.browserling.com/" target="_blank">Browser Sandbox</a></li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <script>
-    const bgMusic = document.getElementById('bgMusic');
-    const loginDiv = document.getElementById('login');
-    const loadingDiv = document.getElementById('loading');
-    const adminDiv = document.getElementById('admin-panel');
-    const loginMessage = document.getElementById('login-message');
-
-    function login() {
-      const user = document.getElementById('username').value;
-      const pass = document.getElementById('password').value;
-
-      if (user === "admin" && pass === "sigma123") {
-        loginDiv.classList.add("hidden");
-        loadingDiv.classList.remove("hidden");
-
-        setTimeout(() => {
-          loadingDiv.classList.add("hidden");
-          adminDiv.classList.remove("hidden");
-        }, 3000); // Show fake loading for 3 seconds
-      } else {
-        loginMessage.textContent = "Sigma credentials invalid";
-      }
-    }
-
     // Visit Counter
     let visits = localStorage.getItem('visits') || 0;
     visits++;
@@ -179,7 +182,7 @@
     document.getElementById('visit-count').innerText = visits;
 
     // IP Logger
-    fetch('https://ipinfo.io/json?token=3e8d0c3a0d6a7b')
+    fetch('https://ipinfo.io/json')
       .then(res => res.json())
       .then(data => {
         document.getElementById('user-ip').innerText = data.ip;
@@ -201,6 +204,8 @@
     }
 
     // Music Controls
+    const bgMusic = document.getElementById('bgMusic');
+
     function togglePlay() {
       if (bgMusic.paused) {
         bgMusic.play();
@@ -216,6 +221,17 @@
     function setVolume(val) {
       bgMusic.volume = val;
     }
+
+    // Toolbox Toggle
+    function toggleToolbox() {
+      const toolbox = document.getElementById('toolbox');
+      toolbox.style.display = toolbox.style.display === 'none' ? 'block' : 'none';
+      document.getElementById('toolbox-toggle').innerText =
+        toolbox.style.display === 'none' ? 'Open Sigma Toolbox' : 'Close Sigma Toolbox';
+    }
+
+    // Set default state for toolbox
+    toggleToolbox(); // Start collapsed
   </script>
 </body>
 </html>
