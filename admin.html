@@ -1,22 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sigma Admin Panel</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       font-family: 'Orbitron', sans-serif;
       text-align: center;
       color: white;
-      padding: 50px;
-      margin: 0;
+      background: black;
       overflow: hidden;
+    }
+
+    #loading-screen, #login-screen, #admin-panel {
+      display: none;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    #loading-screen {
+      display: flex;
+      background: radial-gradient(circle, #222 0%, #000 100%);
+      color: gold;
+      font-size: 28px;
+    }
+
+    #login-screen {
       background: linear-gradient(270deg, #000, #1a1a1a, #000);
       background-size: 600% 600%;
       animation: bgMove 20s ease infinite;
+      display: flex;
+    }
+
+    #admin-panel {
+      background: linear-gradient(270deg, #000, #1a1a1a, #000);
+      background-size: 600% 600%;
+      animation: bgMove 20s ease infinite;
+      display: none;
+      padding: 50px;
     }
 
     @keyframes bgMove {
@@ -25,14 +60,30 @@
       100% { background-position: 0% 50%; }
     }
 
-    .container {
+    .login-box, .container {
       background-color: rgba(0, 0, 0, 0.7);
       border: 3px solid gold;
       padding: 20px;
-      display: inline-block;
-      width: 400px;
       border-radius: 10px;
       box-shadow: 0 0 20px gold;
+      width: 400px;
+    }
+
+    .login-box input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 80%;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .login-box button {
+      background-color: gold;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 8px;
     }
 
     h1 {
@@ -49,11 +100,6 @@
     a:hover {
       text-decoration: underline;
       color: gold;
-    }
-
-    .controls button,
-    .controls input[type=range] {
-      margin: 5px;
     }
 
     #toolbox-toggle {
@@ -104,13 +150,23 @@
 </head>
 <body>
 
-  <!-- Background Music -->
-  <audio id="bgMusic" autoplay loop>
-    <source src="https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/Ogryzek%20-%20AURA%20(Ultra%20Slowed%20+%20Reverb).mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <h1>Loading... Skibidi Admin Control Initiated</h1>
+  </div>
 
-  <div class="container" id="admin-panel">
+  <!-- Login Screen -->
+  <div id="login-screen">
+    <div class="login-box">
+      <h1>Login</h1>
+      <input type="text" id="username" placeholder="Username" /><br>
+      <input type="password" id="password" placeholder="Password" /><br>
+      <button onclick="login()">Enter</button>
+    </div>
+  </div>
+
+  <!-- Admin Panel -->
+  <div id="admin-panel" class="container">
     <h1>Admin Panel</h1>
     <p>Welcome to the Sigma Control Room</p>
 
@@ -174,39 +230,68 @@
     </div>
   </div>
 
+  <!-- Background Music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/Ogryzek%20-%20AURA%20(Ultra%20Slowed%20+%20Reverb).mp3" type="audio/mpeg">
+  </audio>
+
   <script>
-    // Visit Counter
-    let visits = localStorage.getItem('visits') || 0;
-    visits++;
-    localStorage.setItem('visits', visits);
-    document.getElementById('visit-count').innerText = visits;
+    // Show loading screen for 2 seconds then login
+    window.onload = function () {
+      document.getElementById('loading-screen').style.display = 'flex';
+      setTimeout(() => {
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('login-screen').style.display = 'flex';
+      }, 2000);
+    };
 
-    // IP Logger
-    fetch('https://ipinfo.io/json')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('user-ip').innerText = data.ip;
-        console.log("Visitor IP:", data.ip);
-      })
-      .catch(() => {
-        document.getElementById('user-ip').innerText = "Failed to fetch IP";
-      });
+    function login() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
 
-    // Notification
-    if (Notification.permission !== "granted") {
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          new Notification("Welcome back, Sigma Admin");
-        }
-      });
-    } else {
-      new Notification("Welcome back, Sigma Admin");
+      if (user === "admin" && pass === "skibidi") {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('admin-panel').style.display = 'block';
+        initPanel();
+      } else {
+        alert("Skibidi Access Denied.");
+      }
     }
 
-    // Music Controls
-    const bgMusic = document.getElementById('bgMusic');
+    function initPanel() {
+      // Visit Counter
+      let visits = localStorage.getItem('visits') || 0;
+      visits++;
+      localStorage.setItem('visits', visits);
+      document.getElementById('visit-count').innerText = visits;
+
+      // IP Logger
+      fetch('https://ipinfo.io/json')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('user-ip').innerText = data.ip;
+        })
+        .catch(() => {
+          document.getElementById('user-ip').innerText = "IP fetch failed";
+        });
+
+      // Notification
+      if (Notification.permission !== "granted") {
+        Notification.requestPermission().then(permission => {
+          if (permission === "granted") {
+            new Notification("Welcome back, Sigma Admin");
+          }
+        });
+      } else {
+        new Notification("Welcome back, Sigma Admin");
+      }
+
+      // Collapse toolbox by default
+      toggleToolbox();
+    }
 
     function togglePlay() {
+      const bgMusic = document.getElementById('bgMusic');
       if (bgMusic.paused) {
         bgMusic.play();
       } else {
@@ -215,23 +300,21 @@
     }
 
     function toggleMute() {
+      const bgMusic = document.getElementById('bgMusic');
       bgMusic.muted = !bgMusic.muted;
     }
 
     function setVolume(val) {
+      const bgMusic = document.getElementById('bgMusic');
       bgMusic.volume = val;
     }
 
-    // Toolbox Toggle
     function toggleToolbox() {
       const toolbox = document.getElementById('toolbox');
       toolbox.style.display = toolbox.style.display === 'none' ? 'block' : 'none';
       document.getElementById('toolbox-toggle').innerText =
         toolbox.style.display === 'none' ? 'Open Sigma Toolbox' : 'Close Sigma Toolbox';
     }
-
-    // Set default state for toolbox
-    toggleToolbox(); // Start collapsed
   </script>
 </body>
 </html>
