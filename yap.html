@@ -51,8 +51,12 @@
     function validateLogin() {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-        
-        if (username === "gamer123" && password === "playnow") {
+        if (username === "cameron" && password === "1234") {
+            window.location.href = "loggedin.html"; // Replace with your actual game site
+        } else {
+            alert("Invalid login. Try again!");
+        }
+        if (username === "edp445" && password === "cupcake") {
             window.location.href = "loggedin.html"; // Replace with your actual game site
         } else {
             alert("Invalid login. Try again!");
