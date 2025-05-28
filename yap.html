@@ -81,6 +81,22 @@
         }
     }
 </script>
+<script>
+    function validateLogin() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        let users = JSON.parse(localStorage.getItem("users")) || {};
+
+        if (username === "edp445" && password === "cupcake") {
+            window.location.href = "admin.html"; // Redirects to the hidden admin panel
+        } else if (users[username] && users[username] === password) {
+            window.location.href = "loggedin.html"; // Regular user login
+        } else {
+            alert("Invalid login. Try again!");
+        }
+    }
+</script>
 
 
     <script>
