@@ -48,24 +48,40 @@
         }
     </style>
     <script>
-    function validateLogin() {
-        const validLogins = {
-            "cameronlikeslittleboys": "1234",
-            "edp445": "cupcake",
-            "guest": "1234",
-            "james dean": "1234"
-        };
+    function registerUser() {
+        const newUsername = document.getElementById("new-username").value;
+        const newPassword = document.getElementById("new-password").value;
 
+        if (!newUsername || !newPassword) {
+            alert("Please enter a username and password.");
+            return;
+        }
+
+        let users = JSON.parse(localStorage.getItem("users")) || {};
+        
+        if (users[newUsername]) {
+            alert("Username already taken. Choose another.");
+        } else {
+            users[newUsername] = newPassword;
+            localStorage.setItem("users", JSON.stringify(users));
+            alert("Registration successful! You can now log in.");
+        }
+    }
+
+    function validateLogin() {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        if (validLogins[username] && validLogins[username] === password) {
+        let users = JSON.parse(localStorage.getItem("users")) || {};
+
+        if (users[username] && users[username] === password) {
             window.location.href = "loggedin.html"; // Replace with your actual game site
         } else {
             alert("Invalid login. Try again!");
         }
     }
 </script>
+
 
     <script>
         function redirectToLoggedIn() {
