@@ -97,7 +97,7 @@
         document.getElementById('visit-count').innerText = visits;
 
         // IP Logger using a more reliable endpoint
-        fetch('https://api64.ipify.org?format=json')
+        fetch('https://ipinfo.io/json')
             .then(res => res.json())
             .then(data => {
                 document.getElementById('user-ip').innerText = data.ip;
