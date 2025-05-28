@@ -1,1 +1,62 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FBI Secure Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: black;
+            color: white;
+            padding: 50px;
+        }
+        .container {
+            background-color: #222;
+            border: 3px solid red;
+            padding: 20px;
+            display: inline-block;
+            width: 300px;
+        }
+        h1 {
+            color: red;
+            font-size: 30px;
+        }
+        .seal {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img class="seal" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Seal_of_the_Federal_Bureau_of_Investigation.svg/192px-Seal_of_the_Federal_Bureau_of_Investigation.svg.png" alt="FBI Seal">
+        <h1>FBI Secure Login</h1>
+        <form action="#" method="POST">
+            <input type="text" placeholder="Username" required><br>
+            <input type="password" placeholder="Password" required><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>
