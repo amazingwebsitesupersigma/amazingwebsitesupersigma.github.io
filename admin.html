@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sigma Admin Panel</title>
+  <title>Admin Panel</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
@@ -92,7 +92,7 @@
 
   <!-- Login Screen -->
   <div id="login" class="login-container">
-    <h1>Sigma Login</h1>
+    <h1>Admin Login</h1>
     <input type="text" id="username" placeholder="Username" /><br>
     <input type="password" id="password" placeholder="Password" /><br>
     <button onclick="login()">Enter</button>
@@ -161,11 +161,11 @@
     if (Notification.permission !== "granted") {
       Notification.requestPermission().then(permission => {
         if (permission === "granted") {
-          new Notification("Welcome back, Sigma Admin");
+          new Notification("Welcome back, Admin");
         }
       });
     } else {
-      new Notification("Welcome back, Sigma Admin");
+      new Notification("Welcome back, Admin");
     }
 
     // Music Controls
