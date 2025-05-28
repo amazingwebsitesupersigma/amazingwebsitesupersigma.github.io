@@ -75,13 +75,20 @@
 </head>
 <body>
     <div class="container">
-        <img class="seal" src="https://www.fbi.gov/image-repository/fbi-seal.jpg/@@images/ce091bc0-8b3a-4bb0-842d-dc2e27f5099f.png" alt="FBI Seal">
-        <h1>FBI Secure Login</h1>
-        <form onsubmit="validateLogin(); return false;">
-    <input type="text" id="username" placeholder="Username" required><br>
-    <input type="password" id="password" placeholder="Password" required><br>
-    <button type="submit">Login</button>
-</form>
-    </div>
+    <img class="seal" src="https://www.fbi.gov/image-repository/fbi-seal.jpg/@@images/ce091bc0-8b3a-4bb0-842d-dc2e27f5099f.png" alt="FBI Seal">
+    <h1>FBI Secure Login</h1>
+
+    <h2>Register</h2>
+    <input type="text" id="new-username" placeholder="New Username" required><br>
+    <input type="password" id="new-password" placeholder="New Password" required><br>
+    <button onclick="registerUser()">Register</button>
+
+    <h2>Login</h2>
+    <form onsubmit="validateLogin(); return false;">
+        <input type="text" id="username" placeholder="Username" required><br>
+        <input type="password" id="password" placeholder="Password" required><br>
+        <button type="submit">Login</button>
+    </form>
+</div>
 </body>
 </html>
