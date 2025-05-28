@@ -29,6 +29,16 @@
     <div class="container">
         <h1>Admin Panel</h1>
         <p>Well Well Well</p>
+        <h1>Site Stats</h1>
+        <p>Total Visits: <span id="visit-count">0</span></p>
     </div>
+
+    <script>
+        let visits = localStorage.getItem('visits') || 0;
+        visits++;
+        localStorage.setItem('visits', visits);
+        document.getElementById('visit-count').innerText = visits;
+    </script>
+
 </body>
 </html>
