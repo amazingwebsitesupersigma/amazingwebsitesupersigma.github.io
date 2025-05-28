@@ -1,142 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sigma Admin Panel</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sigma Admin Panel</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
-        body {
-            font-family: 'Orbitron', sans-serif;
-            text-align: center;
-            color: white;
-            padding: 50px;
-            margin: 0;
-            overflow: hidden;
-            background: linear-gradient(270deg, #000, #1a1a1a, #000);
-            background-size: 600% 600%;
-            animation: bgMove 20s ease infinite;
-        }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+      color: white;
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(270deg, #000, #1a1a1a, #000);
+      background-size: 600% 600%;
+      animation: bgMove 20s ease infinite;
+    }
 
-        @keyframes bgMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    @keyframes bgMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-        .container {
-            background-color: rgba(0, 0, 0, 0.7);
-            border: 3px solid gold;
-            padding: 20px;
-            display: inline-block;
-            width: 350px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px gold;
-        }
+    .container, .login-container {
+      background-color: rgba(0, 0, 0, 0.7);
+      border: 3px solid gold;
+      padding: 20px;
+      display: inline-block;
+      width: 350px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px gold;
+      margin-top: 10%;
+    }
 
-        h1 {
-            color: gold;
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
+    h1 {
+      color: gold;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
 
-        a {
-            color: lightblue;
-            text-decoration: none;
-        }
+    a {
+      color: lightblue;
+      text-decoration: none;
+    }
 
-        a:hover {
-            text-decoration: underline;
-            color: gold;
-        }
+    a:hover {
+      text-decoration: underline;
+      color: gold;
+    }
 
-        .controls {
-            margin-top: 20px;
-        }
+    .controls {
+      margin-top: 20px;
+    }
 
-        .controls button, .controls input[type=range] {
-            margin: 5px;
-        }
-    </style>
+    .controls button, .controls input[type=range] {
+      margin: 5px;
+    }
+
+    .login-container input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .login-container button {
+      padding: 10px 20px;
+      font-weight: bold;
+      background-color: gold;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Background Music -->
-    <audio id="bgMusic" autoplay loop>
-        <source src="https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/Ogryzek%20-%20AURA%20(Ultra%20Slowed%20+%20Reverb).mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+  <!-- Background Music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/Ogryzek%20-%20AURA%20(Ultra%20Slowed%20+%20Reverb).mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 
-    <div class="container">
-        <h1>Admin Panel</h1>
-        <p>Welcome to the Sigma Control Room</p>
+  <!-- Login Screen -->
+  <div id="login" class="login-container">
+    <h1>Sigma Login</h1>
+    <input type="text" id="username" placeholder="Username" /><br>
+    <input type="password" id="password" placeholder="Password" /><br>
+    <button onclick="login()">Enter</button>
+    <p id="login-message" style="color:red;"></p>
+  </div>
 
-        <h1>Site Stats</h1>
-        <p>Total Visits: <span id="visit-count">0</span></p>
+  <!-- Main Admin Panel -->
+  <div id="admin-panel" class="container hidden">
+    <h1>Admin Panel</h1>
+    <p>Welcome to the Sigma Control Room</p>
 
-        <h1>Game Site</h1>
-        <a href="https://ezunblocktheopps.github.io/home.github.io/mainpage.html" target="_blank">ez unblock the opps</a>
+    <h1>Site Stats</h1>
+    <p>Total Visits: <span id="visit-count">0</span></p>
 
-        <h1>Your IP:</h1>
-        <p id="user-ip">Loading...</p>
+    <h1>Game Site</h1>
+    <a href="https://ezunblocktheopps.github.io/home.github.io/mainpage.html" target="_blank">ez unblock the opps</a>
 
-        <div class="controls">
-            <h1>Music Controls</h1>
-            <button onclick="togglePlay()">Play/Pause</button>
-            <button onclick="toggleMute()">Mute/Unmute</button><br>
-            <input type="range" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
-        </div>
+    <h1>Your IP:</h1>
+    <p id="user-ip">Loading...</p>
+
+    <div class="controls">
+      <h1>Music Controls</h1>
+      <button onclick="togglePlay()">Play/Pause</button>
+      <button onclick="toggleMute()">Mute/Unmute</button><br>
+      <input type="range" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
     </div>
+  </div>
 
-    <script>
-        // Visit Counter
-        let visits = localStorage.getItem('visits') || 0;
-        visits++;
-        localStorage.setItem('visits', visits);
-        document.getElementById('visit-count').innerText = visits;
+  <script>
+    const bgMusic = document.getElementById('bgMusic');
+    const loginDiv = document.getElementById('login');
+    const adminDiv = document.getElementById('admin-panel');
+    const loginMessage = document.getElementById('login-message');
 
-        // IP Logger using a more reliable endpoint
-        fetch('https://ipinfo.io/json')
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('user-ip').innerText = data.ip;
-                console.log("Visitor IP:", data.ip);
-            })
-            .catch(() => {
-                document.getElementById('user-ip').innerText = "Failed to fetch IP";
-            });
+    function login() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
 
-        // Notification
-        if (Notification.permission !== "granted") {
-            Notification.requestPermission().then(permission => {
-                if (permission === "granted") {
-                    new Notification("Welcome back, Sigma Admin");
-                }
-            });
-        } else {
-            new Notification("Welcome back, Sigma Admin");
+      // Fake credentials
+      if (user === "admin" && pass === "sigma123") {
+        loginDiv.classList.add("hidden");
+        adminDiv.classList.remove("hidden");
+      } else {
+        loginMessage.textContent = "Sigma credentials invalid";
+      }
+    }
+
+    // Visit Counter
+    let visits = localStorage.getItem('visits') || 0;
+    visits++;
+    localStorage.setItem('visits', visits);
+    document.getElementById('visit-count').innerText = visits;
+
+    // IP Logger
+    fetch('https://ipinfo.io/json?token=3e8d0c3a0d6a7b')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('user-ip').innerText = data.ip;
+        console.log("Visitor IP:", data.ip);
+      })
+      .catch(() => {
+        document.getElementById('user-ip').innerText = "Failed to fetch IP";
+      });
+
+    // Notification
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          new Notification("Welcome back, Sigma Admin");
         }
+      });
+    } else {
+      new Notification("Welcome back, Sigma Admin");
+    }
 
-        // Music Controls
-        const bgMusic = document.getElementById('bgMusic');
+    // Music Controls
+    function togglePlay() {
+      if (bgMusic.paused) {
+        bgMusic.play();
+      } else {
+        bgMusic.pause();
+      }
+    }
 
-        function togglePlay() {
-            if (bgMusic.paused) {
-                bgMusic.play();
-            } else {
-                bgMusic.pause();
-            }
-        }
+    function toggleMute() {
+      bgMusic.muted = !bgMusic.muted;
+    }
 
-        function toggleMute() {
-            bgMusic.muted = !bgMusic.muted;
-        }
-
-        function setVolume(val) {
-            bgMusic.volume = val;
-        }
-    </script>
-
+    function setVolume(val) {
+      bgMusic.volume = val;
+    }
+  </script>
 </body>
 </html>
