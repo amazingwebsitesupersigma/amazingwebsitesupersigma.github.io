@@ -3,43 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+    <title>Sigma Admin Panel</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Orbitron', sans-serif;
             text-align: center;
-            background-color: black;
             color: white;
             padding: 50px;
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(270deg, #000, #1a1a1a, #000);
+            background-size: 600% 600%;
+            animation: bgMove 20s ease infinite;
         }
+
+        @keyframes bgMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .container {
-            background-color: #222;
+            background-color: rgba(0, 0, 0, 0.7);
             border: 3px solid gold;
             padding: 20px;
             display: inline-block;
-            width: 300px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px gold;
         }
+
         h1 {
             color: gold;
-            font-size: 30px;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: lightblue;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: gold;
         }
     </style>
 </head>
 <body>
+
+    <!-- Background Music -->
+    <audio autoplay loop>
+        <source src="https://files.catbox.moe/6zdy3g.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <div class="container">
         <h1>Admin Panel</h1>
-        <p>Well Well Well</p>
+        <p>Welcome to the Sigma Control Room</p>
+
         <h1>Site Stats</h1>
         <p>Total Visits: <span id="visit-count">0</span></p>
+
         <h1>Game Site</h1>
-         <a href="https://ezunblocktheopps.github.io/home.github.io/mainpage.html">ez unblock the opps</a> 
+        <a href="https://ezunblocktheopps.github.io/home.github.io/mainpage.html" target="_blank">ez unblock the opps</a>
+
+        <h1>Your IP:</h1>
+        <p id="user-ip">Loading...</p>
     </div>
 
     <script>
+        // Visit Counter
         let visits = localStorage.getItem('visits') || 0;
         visits++;
         localStorage.setItem('visits', visits);
         document.getElementById('visit-count').innerText = visits;
+
+        // IP Logger
+        fetch('https://api.ipify.org?format=json')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('user-ip').innerText = data.ip;
+                console.log("Visitor IP:", data.ip); // Log to console (or send to backend)
+            });
+
+        // Notification
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    new Notification("Welcome back, Sigma Admin");
+                }
+            });
+        } else {
+            new Notification("Welcome back, Sigma Admin");
+        }
     </script>
 
 </body>
