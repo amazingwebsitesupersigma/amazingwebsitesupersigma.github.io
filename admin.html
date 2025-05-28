@@ -50,12 +50,20 @@
             text-decoration: underline;
             color: gold;
         }
+
+        .controls {
+            margin-top: 20px;
+        }
+
+        .controls button, .controls input[type=range] {
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
 
     <!-- Background Music -->
-    <audio autoplay loop>
+    <audio id="bgMusic" autoplay loop>
         <source src="https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/Ogryzek%20-%20AURA%20(Ultra%20Slowed%20+%20Reverb).mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
@@ -72,6 +80,13 @@
 
         <h1>Your IP:</h1>
         <p id="user-ip">Loading...</p>
+
+        <div class="controls">
+            <h1>Music Controls</h1>
+            <button onclick="togglePlay()">Play/Pause</button>
+            <button onclick="toggleMute()">Mute/Unmute</button><br>
+            <input type="range" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
+        </div>
     </div>
 
     <script>
@@ -81,12 +96,15 @@
         localStorage.setItem('visits', visits);
         document.getElementById('visit-count').innerText = visits;
 
-        // IP Logger
-        fetch('https://api.ipify.org?format=json')
+        // IP Logger using a more reliable endpoint
+        fetch('https://api64.ipify.org?format=json')
             .then(res => res.json())
             .then(data => {
                 document.getElementById('user-ip').innerText = data.ip;
-                console.log("Visitor IP:", data.ip); // Log to console (or send to backend)
+                console.log("Visitor IP:", data.ip);
+            })
+            .catch(() => {
+                document.getElementById('user-ip').innerText = "Failed to fetch IP";
             });
 
         // Notification
@@ -98,6 +116,25 @@
             });
         } else {
             new Notification("Welcome back, Sigma Admin");
+        }
+
+        // Music Controls
+        const bgMusic = document.getElementById('bgMusic');
+
+        function togglePlay() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+            } else {
+                bgMusic.pause();
+            }
+        }
+
+        function toggleMute() {
+            bgMusic.muted = !bgMusic.muted;
+        }
+
+        function setVolume(val) {
+            bgMusic.volume = val;
         }
     </script>
 
