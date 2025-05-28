@@ -1,113 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FBI Secure Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: black;
-            color: white;
-            padding: 50px;
-        }
-        .container {
-            background-color: #222;
-            border: 3px solid red;
-            padding: 20px;
-            display: inline-block;
-            width: 300px;
-        }
-        h1 {
-            color: red;
-            font-size: 30px;
-        }
-        .seal {
-            width: 100px;
-            margin-bottom: 20px;
-        }
-        input {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-        }
-        button {
-            background-color: red;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-        }
-        button:hover {
-            background-color: darkred;
-        }
-    </style>
-    <script>
-    function registerUser() {
-        const newUsername = document.getElementById("new-username").value;
-        const newPassword = document.getElementById("new-password").value;
-
-        if (!newUsername || !newPassword) {
-            alert("Please enter a username and password.");
-            return;
-        }
-
-        let users = JSON.parse(localStorage.getItem("users")) || {};
-        
-        if (users[newUsername]) {
-            alert("Username already taken. Choose another.");
-        } else {
-            users[newUsername] = newPassword;
-            localStorage.setItem("users", JSON.stringify(users));
-            alert("Registration successful! You can now log in.");
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FBI Secure Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: black;
+      color: white;
+      padding: 50px;
+    }
+    .container {
+      background-color: #222;
+      border: 3px solid red;
+      padding: 20px;
+      display: inline-block;
+      width: 300px;
+    }
+    h1 {
+      color: red;
+      font-size: 30px;
+    }
+    .seal {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      background-color: red;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: darkred;
     }
 
-    function validateLogin() {
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        let users = JSON.parse(localStorage.getItem("users")) || {};
-
-        if (users[username] && users[username] === password) {
-            window.location.href = "loggedin.html"; // Replace with your actual game site
-        } else {
-            alert("Invalid login. Try again!");
-        }
+    #jumpscare {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background-color: black;
+      background-size: cover;
+      background-position: center;
+      display: none;
+      z-index: 9999;
     }
-</script>
-<script>
-    function validateLogin() {
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        let users = JSON.parse(localStorage.getItem("users")) || {};
-
-        if (username === "edp445" && password === "cupcake") {
-            window.location.href = "admin.html"; // Redirects to the hidden admin panel
-        } else if (users[username] && users[username] === password) {
-            window.location.href = "loggedin.html"; // Regular user login
-        } else {
-            alert("Invalid login. Try again!");
-        }
-    }
-</script>
-
-
-    <script>
-        function redirectToLoggedIn() {
-            window.location.href = "loggedin.html";
-        }
-    </script>
+  </style>
 </head>
 <body>
-    <div class="container">
-    <img class="seal" src="https://www.fbi.gov/image-repository/fbi-seal.jpg/@@images/ce091bc0-8b3a-4bb0-842d-dc2e27f5099f.png" alt="FBI Seal">
+  <div id="jumpscare"></div>
+  <audio id="screamsound" src="https://www.myinstants.com/media/sounds/movie_1.mp3"></audio> <!-- Replace with your own -->
+
+  <div class="container">
+    <img class="seal" src="https://www.fbi.gov/image-repository/fbi-seal.jpg/@@images/ce091bc0-8b3a-4bb0-842d-dc2e27f5099f.png" alt="FBI Seal"/>
     <h1>FBI Secure Login</h1>
 
     <h2>Register</h2>
@@ -117,10 +76,74 @@
 
     <h2>Login</h2>
     <form onsubmit="validateLogin(); return false;">
-        <input type="text" id="username" placeholder="Username" required><br>
-        <input type="password" id="password" placeholder="Password" required><br>
-        <button type="submit">Login</button>
+      <input type="text" id="username" placeholder="Username" required><br>
+      <input type="password" id="password" placeholder="Password" required><br>
+      <button type="submit">Login</button>
     </form>
-</div>
+  </div>
+
+  <script>
+    function showJumpscare() {
+      const jumpscare = document.getElementById("jumpscare");
+      const sound = document.getElementById("screamsound");
+      jumpscare.style.backgroundImage = "url('https://i.imgur.com/wT7tA7U.jpg')"; // Replace with scary image
+      jumpscare.style.display = "block";
+      sound.play();
+
+      setTimeout(() => {
+        jumpscare.style.display = "none";
+      }, 3000); // Scare lasts 3 seconds
+    }
+
+    function shouldTriggerJumpscare(username, password) {
+      const triggers = ["69", "nigger", "nigga", "diddy"];
+      return triggers.includes(username.toLowerCase()) || triggers.includes(password.toLowerCase());
+    }
+
+    function registerUser() {
+      const newUsername = document.getElementById("new-username").value;
+      const newPassword = document.getElementById("new-password").value;
+
+      if (!newUsername || !newPassword) {
+        alert("Please enter a username and password.");
+        return;
+      }
+
+      if (shouldTriggerJumpscare(newUsername, newPassword)) {
+        showJumpscare();
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem("users")) || {};
+
+      if (users[newUsername]) {
+        alert("Username already taken. Choose another.");
+      } else {
+        users[newUsername] = newPassword;
+        localStorage.setItem("users", JSON.stringify(users));
+        alert("Registration successful! You can now log in.");
+      }
+    }
+
+    function validateLogin() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (shouldTriggerJumpscare(username, password)) {
+        showJumpscare();
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem("users")) || {};
+
+      if (username === "edp445" && password === "cupcake") {
+        window.location.href = "admin.html";
+      } else if (users[username] && users[username] === password) {
+        window.location.href = "loggedin.html";
+      } else {
+        alert("Invalid login. Try again!");
+      }
+    }
+  </script>
 </body>
 </html>
