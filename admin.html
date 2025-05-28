@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sigma Admin Panel</title>
+  <title>Admin Panel</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
@@ -152,7 +152,7 @@
 
   <!-- Loading Screen -->
   <div id="loading-screen">
-    <h1>Loading... Skibidi Admin Control Initiated</h1>
+    <h1>Loading... Admin Control Initiated</h1>
   </div>
 
   <!-- Login Screen -->
@@ -168,7 +168,7 @@
   <!-- Admin Panel -->
   <div id="admin-panel" class="container">
     <h1>Admin Panel</h1>
-    <p>Welcome to the Sigma Control Room</p>
+    <p>Welcome to the Control Room</p>
 
     <h1>Site Stats</h1>
     <p>Total Visits: <span id="visit-count">0</span></p>
@@ -194,7 +194,7 @@
       <div class="category">
         <h2>Media Tools</h2>
         <ul>
-          <li><a href="https://ytmp3.nu/" target="_blank">YouTube MP3 Downloader</a></li>
+          <li><a href="https://notube.com/" target="_blank">YouTube MP3 Downloader</a></li>
           <li><a href="https://www.photopea.com/" target="_blank">Photopea (Free Photoshop)</a></li>
         </ul>
       </div>
@@ -205,6 +205,7 @@
           <li><a href="https://codepen.io/" target="_blank">CodePen</a></li>
           <li><a href="https://jsonformatter.org/" target="_blank">JSON Formatter</a></li>
           <li><a href="https://github.com/" target="_blank">GitHub</a></li>
+          <li><a href="https://nmap.org/" target="_blank">Nmap</a></li>
         </ul>
       </div>
 
@@ -222,11 +223,23 @@
         <h2>Misc / Access</h2>
         <ul>
           <li><a href="https://pastebin.com/" target="_blank">Pastebin</a></li>
-          <li><a href="https://unblocked-games.s3.amazonaws.com/index.html" target="_blank">Unblocked Games Mirror</a></li>
+          <li><a href="https://ezunblocktheopps.github.io/home.github.io/mainpage.html" target="_blank">Unblocked Games</a></li>
           <li><a href="https://exploitdb.com/" target="_blank">Exploit DB</a></li>
           <li><a href="https://www.browserling.com/" target="_blank">Browser Sandbox</a></li>
+          <li><a href="https://www.browserling.com/" target="_blank">Leo</a></li>
+          <li><a href="https://www.browserling.com/" target="_blank">Ben</a></li>
         </ul>
       </div>
+
+<div class="category">
+        <h2>Donate</h2>
+        <ul>
+          <li><a href="https://etherscan.io/address/0xC912EB5A34C67870C951eE0099D7c84Ff2937b5A" target="_blank">Ethereum</a></li>
+          <li><a href="https://mempool.space/address/bc1qknsglcusj465qsqdh9frevddyjpqntyfd2pg9r" target="_blank">Bitcoin</a></li>
+          <li><a href="https://dogechain.info/address/DHBWvD94yEAw4ZsxQDtffozfH39U5o7pZV" target="_blank">Doge Coin</a></li>
+        </ul>
+      </div>
+      
     </div>
   </div>
 
@@ -249,12 +262,12 @@
       const user = document.getElementById('username').value;
       const pass = document.getElementById('password').value;
 
-      if (user === "admin" && pass === "skibidi") {
+      if (user === "admin" && pass === "M0sc0w04") {
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('admin-panel').style.display = 'block';
         initPanel();
       } else {
-        alert("Skibidi Access Denied.");
+        alert("Access Denied.");
       }
     }
 
