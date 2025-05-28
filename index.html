@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site Seized</title>
+    <title>Website Seized</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #fff;
-            color: #000;
+            background-color: black;
+            color: white;
             padding: 50px;
         }
         .container {
             border: 5px solid red;
             padding: 20px;
             display: inline-block;
+            background-color: #222;
         }
         h1 {
             color: red;
@@ -24,18 +25,27 @@
         p {
             font-size: 18px;
         }
+        .seals {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
         .seal {
             width: 100px;
-            margin: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img class="seal" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/US-DeptOfJustice-Seal.svg/192px-US-DeptOfJustice-Seal.svg.png" alt="DOJ Seal">
-        <h1>This Website Has Been Seized</h1>
-        <p>As part of an ongoing investigation, this domain has been seized by law enforcement.</p>
-        <p>If you have any inquiries, contact the appropriate authorities.</p>
+        <div class="seals">
+            <img class="seal" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/US-DeptOfJustice-Seal.svg/192px-US-DeptOfJustice-Seal.svg.png" alt="DOJ Seal">
+            <img class="seal" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Seal_of_the_Federal_Bureau_of_Investigation.svg/192px-Seal_of_the_Federal_Bureau_of_Investigation.svg.png" alt="FBI Seal">
+        </div>
+        <h1>THIS WEBSITE HAS BEEN SEIZED</h1>
+        <p>In accordance with an ongoing investigation, this domain has been taken down by law enforcement authorities.</p>
+        <p>Unauthorized access or distribution of information from this domain is strictly prohibited.</p>
+        <p>For inquiries, contact the relevant legal authorities.</p>
     </div>
 </body>
 </html>
