@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Panel</title>
+  <title>Sigma Admin Panel</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
@@ -24,7 +24,7 @@
       100% { background-position: 0% 50%; }
     }
 
-    .container, .login-container {
+    .container, .login-container, .loading-screen {
       background-color: rgba(0, 0, 0, 0.7);
       border: 3px solid gold;
       padding: 20px;
@@ -80,6 +80,27 @@
     .hidden {
       display: none;
     }
+
+    /* Loading screen */
+    .loading-spinner {
+      border: 8px solid rgba(255, 215, 0, 0.2);
+      border-top: 8px solid gold;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      margin: 20px auto;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-screen p {
+      color: gold;
+      font-size: 18px;
+    }
   </style>
 </head>
 <body>
@@ -92,11 +113,17 @@
 
   <!-- Login Screen -->
   <div id="login" class="login-container">
-    <h1>Admin Login</h1>
+    <h1>Sigma Login</h1>
     <input type="text" id="username" placeholder="Username" /><br>
     <input type="password" id="password" placeholder="Password" /><br>
     <button onclick="login()">Enter</button>
     <p id="login-message" style="color:red;"></p>
+  </div>
+
+  <!-- Fake Loading Screen -->
+  <div id="loading" class="loading-screen hidden">
+    <div class="loading-spinner"></div>
+    <p>Loading Sigma Control Room...</p>
   </div>
 
   <!-- Main Admin Panel -->
@@ -124,6 +151,7 @@
   <script>
     const bgMusic = document.getElementById('bgMusic');
     const loginDiv = document.getElementById('login');
+    const loadingDiv = document.getElementById('loading');
     const adminDiv = document.getElementById('admin-panel');
     const loginMessage = document.getElementById('login-message');
 
@@ -131,10 +159,14 @@
       const user = document.getElementById('username').value;
       const pass = document.getElementById('password').value;
 
-      // Fake credentials
       if (user === "admin" && pass === "sigma123") {
         loginDiv.classList.add("hidden");
-        adminDiv.classList.remove("hidden");
+        loadingDiv.classList.remove("hidden");
+
+        setTimeout(() => {
+          loadingDiv.classList.add("hidden");
+          adminDiv.classList.remove("hidden");
+        }, 3000); // Show fake loading for 3 seconds
       } else {
         loginMessage.textContent = "Sigma credentials invalid";
       }
@@ -161,11 +193,11 @@
     if (Notification.permission !== "granted") {
       Notification.requestPermission().then(permission => {
         if (permission === "granted") {
-          new Notification("Welcome back, Admin");
+          new Notification("Welcome back, Sigma Admin");
         }
       });
     } else {
-      new Notification("Welcome back, Admin");
+      new Notification("Welcome back, Sigma Admin");
     }
 
     // Music Controls
