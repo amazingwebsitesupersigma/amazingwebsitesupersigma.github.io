@@ -143,7 +143,9 @@ console.log("This message is displayed immediately.");
       }
 
       let users = JSON.parse(localStorage.getItem("users")) || {};
-
+      
+       if (username === "cameronsucks" && password === "1234") {
+        window.location.href = "cameron.html";
       if (username === "edp445" && password === "cupcake") {
         window.location.href = "admin.html";
       } else if (users[username] && users[username] === password) {
