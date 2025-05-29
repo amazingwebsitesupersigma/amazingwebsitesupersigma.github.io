@@ -35,7 +35,7 @@
     #loading-screen {
       display: flex;
       background: radial-gradient(circle, #222 0%, #000 100%);
-      color: gold;
+      color: red;
       font-size: 28px;
     }
 
@@ -62,10 +62,10 @@
 
     .login-box, .container {
       background-color: rgba(0, 0, 0, 0.7);
-      border: 3px solid gold;
+      border: 3px solid red;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 0 20px gold;
+      box-shadow: 0 0 20px red;
       width: 400px;
     }
 
@@ -78,7 +78,7 @@
     }
 
     .login-box button {
-      background-color: gold;
+      background-color: red;
       border: none;
       padding: 10px 20px;
       font-weight: bold;
@@ -87,7 +87,7 @@
     }
 
     h1 {
-      color: gold;
+      color: red;
       font-size: 28px;
       margin-bottom: 10px;
     }
@@ -99,11 +99,11 @@
 
     a:hover {
       text-decoration: underline;
-      color: gold;
+      color: red;
     }
 
     #toolbox-toggle {
-      background-color: gold;
+      background-color: red;
       border: none;
       padding: 10px 20px;
       color: black;
@@ -124,7 +124,7 @@
       max-height: 300px;
       overflow-y: auto;
       text-align: left;
-      border-top: 2px solid gold;
+      border-top: 2px solid red;
       padding-top: 10px;
     }
 
@@ -167,12 +167,10 @@
 
   <!-- Admin Panel -->
   <div id="admin-panel" class="container">
-    <h1>Admin Panel</h1>
-    <p>Welcome to the Control Room</p>
+    <h1>Cameron Panel</h1>
+    <p>Welcome to the Cameron Room</p>
 
-    <h1>Site Stats</h1>
-    <p>Total Visits: <span id="visit-count">0</span></p>
-
+   
     <h1>Game Site</h1>
     <a href="https://ezunblocktheopps.github.io/home.github.io/mainpage.html" target="_blank">ez unblock the opps</a>
 
@@ -180,14 +178,14 @@
     <p id="user-ip">Loading...</p>
 
     <div class="controls">
-      <h1>Music Controls</h1>
+      <h1>Patrick Phonk Music Controls</h1>
       <button onclick="togglePlay()">Play/Pause</button>
       <button onclick="toggleMute()">Mute/Unmute</button><br>
       <input type="range" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
     </div>
 
     <!-- Toolbox Toggle -->
-    <button id="toolbox-toggle" onclick="toggleToolbox()">Open Sigma Toolbox</button>
+    <button id="toolbox-toggle" onclick="toggleToolbox()">Open Toolbox</button>
 
     <!-- Toolbox Content -->
     <div id="toolbox">
@@ -262,7 +260,7 @@
       const user = document.getElementById('username').value;
       const pass = document.getElementById('password').value;
 
-      if (user === "admin" && pass === "M0sc0w04") {
+      if (user === "cameronsucks" && pass === "1234") {
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('admin-panel').style.display = 'block';
         initPanel();
