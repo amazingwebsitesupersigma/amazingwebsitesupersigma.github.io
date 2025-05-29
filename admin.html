@@ -327,10 +327,22 @@ const backendUrl = 'https://websitebackend-production-382f.up.railway.app';
   };
     function initPanel() {
       // Visit Counter
-      let visits = localStorage.getItem('visits') || 0;
-      visits++;
-      localStorage.setItem('visits', visits);
-      document.getElementById('visit-count').innerText = visits;
+     updateTotalVisits();
+      
+function updateTotalVisits() {
+  fetch('https://websitebackend-production-382f.up.railway.app/api/visits', {
+    credentials: 'include',
+  })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('visit-count').innerText = data.visits;
+    })
+    .catch(() => {
+      document.getElementById('visit-count').innerText = 'Error loading visits';
+    });
+}
+
+
 
       // IP Logger
       fetch('https://ipinfo.io/json')
