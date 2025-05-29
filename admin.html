@@ -257,20 +257,75 @@
         document.getElementById('login-screen').style.display = 'flex';
       }, 2000);
     };
+const backendUrl = 'https://websitebackend-production-382f.up.railway.app';
+  async function login() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
 
-    function login() {
-      const user = document.getElementById('username').value;
-      const pass = document.getElementById('password').value;
-
-      if (user === "admin" && pass === "greatone") {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('admin-panel').style.display = 'block';
-        initPanel();
-      } else {
-        alert("Access Denied.");
-      }
+    if (!username || !password) {
+      alert('Please enter username and password');
+      return;
     }
 
+    try {
+      const res = await fetch(`${backendUrl}/auth/login`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('admin-panel').style.display = 'block';
+        fetchVisitCount();
+        fetchUserIP();
+      } else {
+        alert(data.message || 'Login failed');
+      }
+    } catch (err) {
+      alert('Login error');
+      console.error(err);
+    }
+  }
+
+  // New logout function:
+  async function logout() {
+    try {
+      await fetch(`${backendUrl}/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch (err) {
+      console.warn('Logout failed', err);
+    }
+    document.getElementById('admin-panel').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+  }
+
+  // On page load, check if already logged in:
+  window.onload = async () => {
+    try {
+      const res = await fetch(`${backendUrl}/auth/session`, {
+        credentials: 'include',
+      });
+      const data = await res.json();
+
+      if (data.authenticated) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('admin-panel').style.display = 'block';
+        fetchVisitCount();
+        fetchUserIP();
+      } else {
+        document.getElementById('login-screen').style.display = 'flex';
+        document.getElementById('admin-panel').style.display = 'none';
+      }
+    } catch (err) {
+      document.getElementById('login-screen').style.display = 'flex';
+      document.getElementById('admin-panel').style.display = 'none';
+    }
+  };
     function initPanel() {
       // Visit Counter
       let visits = localStorage.getItem('visits') || 0;
