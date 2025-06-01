@@ -3,63 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FBI Secure Login</title>
+  <title>FBI Secure Access Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap');
+    
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: black;
-      color: white;
-      padding: 50px;
+      font-family: 'Roboto Mono', monospace;
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.05) 0%, rgba(255, 0, 0, 0.05) 90%),
+        linear-gradient(to bottom, #000000, #0a0a0a);
     }
-    .container {
-      background-color: #222;
-      border: 3px solid red;
-      padding: 20px;
-      display: inline-block;
-      width: 300px;
-    }
-    <!--
-
-  ____  ___       ___        ___ __   __  ____ _____ ___  ____           
- / ___|/ _ \     / \ \      / / \\ \ / / / ___|_   _/ _ \|  _ \          
-| |  _| | | |   / _ \ \ /\ / / _ \\ V /  \___ \ | || | | | |_) |         
-| |_| | |_| |  / ___ \ V  V / ___ \| |    ___) || || |_| |  __/          
- \____|\___/__/_/   \_\_/\_/_/  _\_\_|  _|____/ |_|_\___/|_| ____  _____ 
-/ ___|_   _| ____|  / \  | |   |_ _| \ | |/ ___|  / ___/ _ \|  _ \| ____|
-\___ \ | | |  _|   / _ \ | |    | ||  \| | |  _  | |  | | | | | | |  _|  
- ___) || | | |___ / ___ \| |___ | || |\  | |_| | | |__| |_| | |_| | |___ 
-|____/ |_| |_____/_/   \_\_____|___|_| \_|\____|  \____\___/|____/|_____|
-
--->
-    h1 {
-      color: red;
-      font-size: 30px;
-    }
-    .seal {
-      width: 100px;
-      margin-bottom: 20px;
-    }
-    input {
-      width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 5px;
-    }
-    button {
-      background-color: red;
-      color: white;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+    
+    .security-border {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
+      height: 100%;
+      border: 2px solid #ff0000;
+      pointer-events: none;
+      z-index: -1;
     }
-    button:hover {
-      background-color: darkred;
-    }
+    
 
+	.terminal-wrapper {
+	  position: absolute;
+	  bottom: 10px;
+	  left: 10px;
+	  width: 300px;       /* confined visible area */
+	  overflow: hidden;
+	}
+
+	.terminal-line {
+	  display: inline-block;
+	  white-space: nowrap;
+	  color: #ff0000;
+	  font-size: 12px;
+	  opacity: 0.7;
+	  /* use CSS variables set by JS */
+	  padding-left: var(--wrapper-width);
+	  animation: scroll-left var(--duration, 10s) linear infinite;
+	}
+
+	@keyframes scroll-left {
+	  from { transform: translateX(0); }
+	  to   { transform: translateX(calc(-1 * var(--distance))); }
+	}
+
+
+
+    
+    
     #jumpscare {
       position: fixed;
       top: 0;
@@ -72,48 +75,172 @@
       display: none;
       z-index: 9999;
     }
+    
+    .input-field:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.5);
+    }
+    
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9998;
+    }
+    
+    .loading-text {
+      margin-top: 20px;
+      color: #ff0000;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .loading-bar {
+      width: 200px;
+      height: 2px;
+      background-color: rgba(255, 255, 255, 0.1);
+      margin-top: 10px;
+      overflow: hidden;
+    }
+    
+    .loading-progress {
+      height: 100%;
+      width: 0%;
+      background-color: #ff0000;
+      animation: loading 2s linear infinite;
+    }
+    
+    @keyframes loading {
+      0% { width: 0%; margin-left: 0; }
+      50% { width: 100%; margin-left: 0; }
+      100% { width: 0%; margin-left: 100%; }
+    }
   </style>
 </head>
 <body>
+  <div class="security-border"></div>
+<div class="terminal-wrapper">
+  <div class="terminal-line">𝐀𝐔𝐓𝐇𝐎𝐑𝐈𝐙𝐄𝐃 𝐏𝐄𝐑𝐒𝐎𝐍𝐍𝐄𝐋 𝐎𝐍𝐋𝐘 </div>
+</div>
+
+
+
+ 
+  
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-text">INITIALIZING SECURITY PROTOCOLS</div>
+    <div class="loading-bar">
+      <div class="loading-progress"></div>
+    </div>
+  </div>
+  
+  <!-- Jumpscare -->
   <div id="jumpscare"></div>
-  <audio id="screamsound" src="https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/fnaf-jumpscare-sound.mp3"></audio> <!-- Replace with your own -->
+  <audio id="screamsound" src="https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/fnaf-jumpscare-sound.mp3"></audio>
 
-  <div class="container">
-    <img class="seal" src="https://www.fbi.gov/image-repository/fbi-seal.jpg/@@images/ce091bc0-8b3a-4bb0-842d-dc2e27f5099f.png" alt="FBI Seal"/>
-    <h1>FBI Secure Login</h1>
-
-    <h2>Register</h2>
-    <input type="text" id="new-username" placeholder="New Username" required><br>
-    <input type="password" id="new-password" placeholder="New Password" required><br>
-    <button onclick="registerUser()">Register</button>
-
-    <h2>Login</h2>
-    <form onsubmit="validateLogin(); return false;">
-      <input type="text" id="username" placeholder="Username" required><br>
-      <input type="password" id="password" placeholder="Password" required><br>
-      <button type="submit">Login</button>
-    </form>
+  <!-- Main Content -->
+  <div class="hidden" id="mainContent">
+    <div class="bg-black border border-red-900 p-8 max-w-md w-full relative">
+      <!-- FBI Seal -->
+      <div class="flex justify-center mb-6">
+        <img class="w-20 h-20 object-contain" 
+             src="https://www.fbi.gov/image-repository/fbi-seal.jpg/@@images/ce091bc0-8b3a-4bb0-842d-dc2e27f5099f.png" 
+             alt="FBI Seal"/>
+      </div>
+      
+      <!-- Title -->
+      <h1 class="text-2xl font-bold text-center mb-6 text-red-600 uppercase tracking-wider border-b border-red-900 pb-4">
+        FBI SECURE ACCESS PORTAL
+      </h1>
+      
+      <!-- Warning Message -->
+      <div class="text-xs text-red-500 mb-6 text-center">
+        <i class="fas fa-exclamation-triangle mr-1"></i>
+        THIS SYSTEM IS RESTRICTED TO AUTHORIZED PERSONNEL ONLY
+      </div>
+      
+      <!-- Register Section -->
+      <div class="mb-8">
+        <h2 class="text-sm font-semibold mb-3 text-gray-300 uppercase tracking-wider">
+          <span class="text-red-600">■</span> NEW CREDENTIALS
+        </h2>
+        <input type="text" id="new-username" placeholder="USERNAME" 
+               class="input-field w-full px-4 py-2 mb-3 bg-gray-900 text-white border border-gray-800 focus:border-red-600">
+        <input type="password" id="new-password" placeholder="PASSWORD" 
+               class="input-field w-full px-4 py-2 mb-4 bg-gray-900 text-white border border-gray-800 focus:border-red-600">
+        <button onclick="registerUser()" 
+                class="w-full bg-red-900 hover:bg-red-800 text-white py-2 text-sm uppercase tracking-wider transition-colors duration-200">
+          REGISTER CREDENTIALS
+        </button>
+      </div>
+      
+      <!-- Login Section -->
+      <div>
+        <h2 class="text-sm font-semibold mb-3 text-gray-300 uppercase tracking-wider">
+          <span class="text-red-600">■</span> EXISTING CREDENTIALS
+        </h2>
+        <form onsubmit="validateLogin(); return false;">
+          <input type="text" id="username" placeholder="USERNAME" 
+                 class="input-field w-full px-4 py-2 mb-3 bg-gray-900 text-white border border-gray-800 focus:border-red-600">
+          <input type="password" id="password" placeholder="PASSWORD" 
+                 class="input-field w-full px-4 py-2 mb-4 bg-gray-900 text-white border border-gray-800 focus:border-red-600">
+          <button type="submit" 
+                  class="w-full bg-red-900 hover:bg-red-800 text-white py-2 text-sm uppercase tracking-wider transition-colors duration-200">
+            AUTHENTICATE
+          </button>
+        </form>
+      </div>
+      
+      <!-- Footer -->
+      <div class="mt-6 text-xs text-gray-500 text-center border-t border-gray-800 pt-4">
+        FEDERAL BUREAU OF INVESTIGATION • CLASSIFIED SYSTEM
+      </div>
+    </div>
   </div>
 
   <script>
+    // Simulate loading
+    setTimeout(() => {
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('mainContent').classList.remove('hidden');
+    }, 3000);
+
+	function initScroll() {
+	  const wrapper = document.querySelector('.terminal-wrapper');
+	  const line = document.querySelector('.terminal-line');
+	  const wrapperWidth = wrapper.offsetWidth;
+	  const lineWidth = line.offsetWidth;
+	  const distance = wrapperWidth + lineWidth;
+	  line.style.setProperty('--wrapper-width', wrapperWidth + 'px');
+	  line.style.setProperty('--distance', distance + 'px');
+	  /* optional: adjust duration based on distance to keep speed constant */
+	  const speed = 50; // pixels per second
+	  const duration = distance / speed;
+	  line.style.setProperty('--duration', duration + 's');
+	}
+
+window.addEventListener('load', initScroll);
+window.addEventListener('resize', initScroll);
+
     function showJumpscare() {
       const jumpscare = document.getElementById("jumpscare");
       const sound = document.getElementById("screamsound");
-      jumpscare.style.backgroundImage = "url('https://i.ytimg.com/vi/Mw3jK9YwOxk/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGHIgSCg1MA8=&rs=AOn4CLADLNZ64XZMOhvfep-dTNe4ITNcBQ')"; // Replace with scary image
+      jumpscare.style.backgroundImage = "url('https://i.ytimg.com/vi/Mw3jK9YwOxk/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGHIgSCg1MA8=&rs=AOn4CLADLNZ64XZMOhvfep-dTNe4ITNcBQ')";
       jumpscare.style.display = "block";
       sound.play();
-      function delayedFunction() {
-  console.log("This message is displayed after 2 seconds.");
-}
-
-setTimeout(delayedFunction, 2000); // Delay of 2000 milliseconds (2 seconds)
-console.log("This message is displayed immediately.");
-      window.location.href = "loggedin.html";
       
-
       setTimeout(() => {
         jumpscare.style.display = "none";
-      }, 3000); // Scare lasts 3 seconds
+      }, 3000);
     }
 
     function shouldTriggerJumpscare(username, password) {
@@ -126,7 +253,7 @@ console.log("This message is displayed immediately.");
       const newPassword = document.getElementById("new-password").value;
 
       if (!newUsername || !newPassword) {
-        alert("Please enter a username and password.");
+        alert("ERROR: CREDENTIALS REQUIRED");
         return;
       }
 
@@ -138,11 +265,11 @@ console.log("This message is displayed immediately.");
       let users = JSON.parse(localStorage.getItem("users")) || {};
 
       if (users[newUsername]) {
-        alert("Username already taken. Choose another.");
+        alert("ERROR: USERNAME ALREADY IN USE");
       } else {
         users[newUsername] = newPassword;
         localStorage.setItem("users", JSON.stringify(users));
-        alert("Registration successful! You can now log in.");
+        alert("SUCCESS: CREDENTIALS REGISTERED");
       }
     }
 
@@ -156,16 +283,17 @@ console.log("This message is displayed immediately.");
       }
 
       let users = JSON.parse(localStorage.getItem("users")) || {};
-
-     
       
-       
       if (username === "edp445" && password === "cupcake") {
         window.location.href = "admin.html";
       } else if (users[username] && users[username] === password) {
-        window.location.href = "loggedin.html";
+        // Show loading before redirect
+        document.getElementById('loadingScreen').style.display = 'flex';
+        setTimeout(() => {
+          window.location.href = "loggedin.html";
+        }, 2000);
       } else {
-        alert("Invalid login. Try again!");
+        alert("ERROR: INVALID CREDENTIALS");
       }
     }
   </script>
