@@ -482,11 +482,39 @@
   </div>
   
   <!-- Background Music -->
-  <audio id="bgMusic" autoplay loop>
-    <source src="https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/Ogryzek%20-%20AURA%20(Ultra%20Slowed%20+%20Reverb).mp3" type="audio/mpeg">
-  </audio>
+ <audio id="bgMusic" autoplay>
+  <source id="bgSource" src="" type="audio/mpeg">
+</audio>
+
   
   <script>
+    const playlist = [
+  "https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/Ogryzek%20-%20AURA%20(Ultra%20Slowed%20+%20Reverb).mp3",
+  "https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/My%20memory%20was%20wiped%20by%20the%20elite%20in%202007.mp3",
+  "https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/Treat%20Sigmas%20Better%20(animated)%20~%20Rucka%20Rucka%20Ali.mp3"
+];
+
+let currentTrack = 0;
+const audio = document.getElementById('bgMusic');
+const source = document.getElementById('bgSource');
+
+function playTrack(index) {
+  if (index < playlist.length) {
+    source.src = playlist[index];
+    audio.load();
+    audio.play();
+  }
+}
+
+// Start with the first track
+playTrack(currentTrack);
+
+// When current song ends, play the next one
+audio.addEventListener('ended', () => {
+  currentTrack = (currentTrack + 1) % playlist.length;
+  playTrack(currentTrack);
+});
+
     // Show loading screen for 2 seconds then login
     window.onload = function() {
       document.getElementById('loading-screen').classList.remove('hidden');
