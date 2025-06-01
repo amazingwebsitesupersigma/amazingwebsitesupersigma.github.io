@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Op Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'gold': '#FFD700',
+            'dark-gold': '#D4AF37',
+            'light-gold': '#FFEC8B',
+            'black': '#0F0F0F',
+            'dark': '#1A1A1A',
+            'darker': '#121212',
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'fade-in': 'fadeIn 0.5s ease-in forwards',
+            'slide-up': 'slideUp 0.5s ease-out forwards',
+            'glow': 'glow 2s ease-in-out infinite alternate',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            glow: {
+              '0%': { 'box-shadow': '0 0 5px rgba(255, 215, 0, 0.5)' },
+              '100%': { 'box-shadow': '0 0 20px rgba(255, 215, 0, 0.8)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Montserrat:wght@300;400;600&display=swap');
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #0F0F0F;
+      color: white;
+      overflow-x: hidden;
+    }
+    
+    .orbitron {
+      font-family: 'Orbitron', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(-45deg, #121212, #1A1A1A, #0F0F0F, #1A1A1A);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+    }
+    
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .gold-border {
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .gold-border:hover {
+      border-color: rgba(255, 215, 0, 0.7);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+    
+    .toolbox-item {
+      transition: all 0.3s ease;
+    }
+    
+    .toolbox-item:hover {
+      transform: translateX(5px);
+      background-color: rgba(255, 215, 0, 0.1);
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, rgba(26, 26, 26, 0.8), rgba(15, 15, 15, 0.9));
+      transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #1A1A1A;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 215, 0, 0.5);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 215, 0, 0.7);
+    }
+    
+    .login-input {
+      background-color: rgba(15, 15, 15, 0.7);
+      transition: all 0.3s ease;
+    }
+    
+    .login-input:focus {
+      background-color: rgba(26, 26, 26, 0.9);
+      box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3);
+    }
+    
+    .gold-btn {
+      background: linear-gradient(135deg, #FFD700, #D4AF37);
+      transition: all 0.3s ease;
+    }
+    
+    .gold-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+    }
+    
+    .gold-btn:active {
+      transform: translateY(0);
+    }
+    
+    .loading-dot {
+      animation: bounce 1.5s infinite ease-in-out;
+    }
+    
+    .loading-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    
+    .loading-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .panel-section {
+      opacity: 0;
+      animation: fadeIn 0.5s ease-in forwards;
+    }
+    
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+  </style>
+</head>
+<body class="gradient-bg min-h-screen">
+  
+  <!-- Loading Screen -->
+  <div id="loading-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-90 transition-opacity duration-500">
+    <div class="flex flex-col items-center">
+      <div class="flex items-center justify-center mb-8">
+        <div class="w-16 h-16 rounded-full bg-gold flex items-center justify-center mr-4 animate-spin">
+          <div class="w-14 h-14 rounded-full bg-black"></div>
+        </div>
+        <h1 class="orbitron text-3xl md:text-4xl text-gold font-bold tracking-wider">ADMIN PANEL</h1>
+      </div>
+      <p class="text-light-gold mb-6 text-lg">Initializing secure connection...</p>
+      <div class="flex space-x-2">
+        <div class="loading-dot w-3 h-3 bg-gold rounded-full"></div>
+        <div class="loading-dot w-3 h-3 bg-gold rounded-full"></div>
+        <div class="loading-dot w-3 h-3 bg-gold rounded-full"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Login Screen -->
+<div id="login-screen" class="fixed inset-0 z-40 hidden flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-darker rounded-xl gold-border p-8 shadow-2xl transform transition-all duration-500 animate-slide-up">
+      <div class="text-center mb-8">
+        <div class="w-20 h-20 bg-gold rounded-full flex items-center justify-center mx-auto mb-4 animate-glow">
+          <i class="fas fa-lock text-3xl text-black"></i>
+        </div>
+        <h2 class="orbitron text-2xl text-gold mb-2">Admin Portal</h2>
+        <p class="text-gray-400">Enter your credentials to continue</p>
+      </div>
+      
+      <div class="space-y-4">
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-400 mb-1">Username</label>
+          <input type="text" id="username" placeholder="Enter username" 
+                 class="login-input w-full px-4 py-3 rounded-lg text-white gold-border focus:outline-none">
+        </div>
+        
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-400 mb-1">Password</label>
+          <input type="password" id="password" placeholder="Enter password" 
+                 class="login-input w-full px-4 py-3 rounded-lg text-white gold-border focus:outline-none">
+        </div>
+        
+        <button onclick="login()" 
+                class="gold-btn w-full py-3 px-4 rounded-lg font-bold text-black mt-6 flex items-center justify-center">
+          <i class="fas fa-sign-in-alt mr-2"></i> Access Panel
+        </button>
+      </div>
+      
+      <div class="mt-6 text-center text-gray-500 text-sm">
+        <p>Unauthorized access is strictly prohibited</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Admin Panel -->
+  <div id="admin-panel" class="hidden min-h-screen p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+      <!-- Header -->
+      <header class="flex flex-col md:flex-row items-center justify-between mb-8 md:mb-12 panel-section">
+        <div class="flex items-center mb-4 md:mb-0">
+          <div class="w-12 h-12 rounded-full bg-gold flex items-center justify-center mr-4">
+            <i class="fas fa-shield-alt text-xl text-black"></i>
+          </div>
+          <div>
+            <h1 class="orbitron text-2xl md:text-3xl text-gold font-bold">Control Panel</h1>
+            <p class="text-gray-400 text-sm">Administrative Dashboard</p>
+          </div>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <div class="hidden md:block text-right">
+            <p class="text-gray-400 text-sm">Logged in as: <span class="text-gold">Admin</span></p>
+            <p class="text-gray-400 text-xs">Session active</p>
+          </div>
+          <button onclick="logout()" class="gold-btn px-4 py-2 rounded-lg text-sm font-bold flex items-center">
+            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+          </button>
+        </div>
+      </header>
+      
+      <!-- Stats Section -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 panel-section delay-100">
+        <div class="stat-card rounded-xl gold-border p-6 flex items-center">
+          <div class="w-12 h-12 rounded-full bg-black bg-opacity-50 flex items-center justify-center mr-4">
+            <i class="fas fa-eye text-gold text-xl"></i>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm">Total Visits</p>
+            <p class="text-2xl text-gold font-bold"><span id="visit-count">0</span></p>
+          </div>
+        </div>
+        
+        <div class="stat-card rounded-xl gold-border p-6 flex items-center">
+          <div class="w-12 h-12 rounded-full bg-black bg-opacity-50 flex items-center justify-center mr-4">
+            <i class="fas fa-network-wired text-gold text-xl"></i>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm">Your IP</p>
+            <p class="text-xl text-gold font-mono"><span id="user-ip">Loading...</span></p>
+          </div>
+        </div>
+        
+        <div class="stat-card rounded-xl gold-border p-6 flex items-center">
+          <div class="w-12 h-12 rounded-full bg-black bg-opacity-50 flex items-center justify-center mr-4">
+            <i class="fas fa-music text-gold text-xl"></i>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm">Background Music</p>
+            <div class="flex space-x-2 mt-1">
+              <button onclick="togglePlay()" class="gold-btn px-3 py-1 rounded text-xs">
+                <i class="fas fa-play"></i>
+              </button>
+              <button onclick="toggleMute()" class="gold-btn px-3 py-1 rounded text-xs">
+                <i class="fas fa-volume-up"></i>
+              </button>
+              <input type="range" min="0" max="1" step="0.01" value="1" 
+                     onchange="setVolume(this.value)" class="w-20 accent-gold">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quick Links -->
+      <div class="mb-8 panel-section delay-200">
+        <h2 class="orbitron text-xl text-gold mb-4 flex items-center">
+          <i class="fas fa-rocket mr-2"></i> Quick Access
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <a href="https://ezunblocktheopps.github.io/home.github.io/mainpage.html" target="_blank" 
+             class="gold-border rounded-lg p-4 flex flex-col items-center justify-center text-center hover:bg-black hover:bg-opacity-30 transition-colors">
+            <i class="fas fa-gamepad text-2xl text-gold mb-2"></i>
+            <span class="text-sm">Unblocked Games</span>
+          </a>
+          
+          <a href="https://github.com/" target="_blank" 
+             class="gold-border rounded-lg p-4 flex flex-col items-center justify-center text-center hover:bg-black hover:bg-opacity-30 transition-colors">
+            <i class="fab fa-github text-2xl text-gold mb-2"></i>
+            <span class="text-sm">GitHub</span>
+          </a>
+          
+          <a href="https://www.virustotal.com/" target="_blank" 
+             class="gold-border rounded-lg p-4 flex flex-col items-center justify-center text-center hover:bg-black hover:bg-opacity-30 transition-colors">
+            <i class="fas fa-shield-virus text-2xl text-gold mb-2"></i>
+            <span class="text-sm">VirusTotal</span>
+          </a>
+          
+          <a href="https://pastebin.com/" target="_blank" 
+             class="gold-border rounded-lg p-4 flex flex-col items-center justify-center text-center hover:bg-black hover:bg-opacity-30 transition-colors">
+            <i class="fas fa-paste text-2xl text-gold mb-2"></i>
+            <span class="text-sm">Pastebin</span>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Toolbox Section -->
+      <div class="panel-section delay-300">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="orbitron text-xl text-gold flex items-center">
+            <i class="fas fa-tools mr-2"></i>Toolbox
+          </h2>
+          <button id="toolbox-toggle" onclick="toggleToolbox()" 
+                  class="gold-btn px-4 py-2 rounded-lg text-sm font-bold flex items-center">
+            <i class="fas fa-chevron-down mr-2" id="toolbox-icon"></i> 
+            <span id="toolbox-text">Expand</span>
+          </button>
+        </div>
+        
+        <div id="toolbox" class="hidden rounded-xl gold-border p-6 bg-black bg-opacity-20 transition-all duration-300">
+          <!-- Media Tools -->
+          <div class="mb-6">
+            <h3 class="text-gold font-bold mb-3 flex items-center">
+              <i class="fas fa-photo-video mr-2"></i> Media Tools
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <a href="https://notube.com/" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fas fa-music text-gold mr-3"></i>
+                <span>YouTube MP3 Downloader</span>
+              </a>
+              
+              <a href="https://www.photopea.com/" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fas fa-image text-gold mr-3"></i>
+                <span>Photopea (Free Photoshop)</span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Dev Tools -->
+          <div class="mb-6">
+            <h3 class="text-gold font-bold mb-3 flex items-center">
+              <i class="fas fa-code mr-2"></i> Developer Tools
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <a href="https://codepen.io/" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fab fa-codepen text-gold mr-3"></i>
+                <span>CodePen</span>
+              </a>
+              
+              <a href="https://jsonformatter.org/" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fas fa-brackets-curly text-gold mr-3"></i>
+                <span>JSON Formatter</span>
+              </a>
+              
+              <a href="https://nmap.org/" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fas fa-network-wired text-gold mr-3"></i>
+                <span>Nmap</span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Security / Privacy -->
+          <div class="mb-6">
+            <h3 class="text-gold font-bold mb-3 flex items-center">
+              <i class="fas fa-lock mr-2"></i> Security & Privacy
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <a href="https://privnote.com/" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fas fa-sticky-note text-gold mr-3"></i>
+                <span>PrivNote</span>
+              </a>
+              
+              <a href="https://temp-mail.org/" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fas fa-envelope text-gold mr-3"></i>
+                <span>Temp Mail</span>
+              </a>
+              
+              <a href="https://10minutemail.com/" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fas fa-clock text-gold mr-3"></i>
+                <span>10 Minute Mail</span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Misc / Access -->
+          <div class="mb-6">
+            <h3 class="text-gold font-bold mb-3 flex items-center">
+              <i class="fas fa-random mr-2"></i> Miscellaneous
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <a href="https://exploitdb.com/" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fas fa-bug text-gold mr-3"></i>
+                <span>Exploit DB</span>
+              </a>
+              
+              <a href="https://www.browserling.com/" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fas fa-window-restore text-gold mr-3"></i>
+                <span>Browser Sandbox</span>
+              </a>
+              
+              <a href="https://raw.githubusercontent.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/refs/heads/main/How_leo_fisher.gif" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fas fa-smile-wink text-gold mr-3"></i>
+                <span>Leo</span>
+              </a>
+              
+              <a href="https://raw.githubusercontent.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/refs/heads/main/Screenshot%202025-04-05%20144919.png" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fas fa-user-secret text-gold mr-3"></i>
+                <span>Ben</span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Donate -->
+          <div>
+            <h3 class="text-gold font-bold mb-3 flex items-center">
+              <i class="fas fa-donate mr-2"></i> Donate
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <a href="https://etherscan.io/address/0xC912EB5A34C67870C951eE0099D7c84Ff2937b5A" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fab fa-ethereum text-gold mr-3"></i>
+                <span>Ethereum</span>
+              </a>
+              
+              <a href="https://mempool.space/address/bc1qknsglcusj465qsqdh9frevddyjpqntyfd2pg9r" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fab fa-bitcoin text-gold mr-3"></i>
+                <span>Bitcoin</span>
+              </a>
+              
+              <a href="https://dogechain.info/address/DHBWvD94yEAw4ZsxQDtffozfH39U5o7pZV" target="_blank" 
+                 class="toolbox-item gold-border rounded-lg p-3 flex items-center hover:bg-black hover:bg-opacity-30">
+                <i class="fas fa-dog text-gold mr-3"></i>
+                <span>Doge Coin</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Background Music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/Ogryzek%20-%20AURA%20(Ultra%20Slowed%20+%20Reverb).mp3" type="audio/mpeg">
+  </audio>
+  
+  <script>
+    // Show loading screen for 2 seconds then login
+    window.onload = function() {
+      document.getElementById('loading-screen').classList.remove('hidden');
+      
+      setTimeout(() => {
+        document.getElementById('loading-screen').classList.add('opacity-0');
+        
+        setTimeout(() => {
+          document.getElementById('loading-screen').classList.add('hidden');
+          document.getElementById('login-screen').classList.remove('hidden');
+        }, 500);
+      }, 2000);
+    };
+    
+    const backendUrl = 'https://websitebackend-production-382f.up.railway.app';
+    
+    async function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      
+      if (!username || !password) {
+        alert('Please enter username and password');
+        return;
+      }
+      
+      try {
+        // Add loading state to button
+        const loginBtn = document.querySelector('#login-screen button');
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Authenticating...';
+        loginBtn.disabled = true;
+        
+        const res = await fetch(`${backendUrl}/auth/login`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+        
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+          // Success - transition to admin panel
+          document.getElementById('login-screen').classList.add('opacity-0');
+          
+          setTimeout(() => {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('admin-panel').classList.remove('hidden');
+            fetchVisitCount();
+            fetchUserIP();
+            
+            // Play notification sound
+            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3');
+            audio.volume = 0.3;
+            audio.play();
+          }, 500);
+        } else {
+          // Error - reset button state
+          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Access Panel';
+          loginBtn.disabled = false;
+          
+          // Shake animation for error
+          document.querySelector('.login-input').classList.add('animate-shake');
+          setTimeout(() => {
+            document.querySelector('.login-input').classList.remove('animate-shake');
+          }, 500);
+          
+          alert(data.message || 'Login failed');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Network error occurred');
+      }
+    }
+    
+    // New logout function
+    async function logout() {
+      try {
+        await fetch(`${backendUrl}/auth/logout`, {
+          method: 'POST',
+          credentials: 'include',
+        });
+      } catch (err) {
+        console.warn('Logout failed', err);
+      }
+      
+      // Transition back to login
+      document.getElementById('admin-panel').classList.add('opacity-0');
+      
+      setTimeout(() => {
+        document.getElementById('admin-panel').classList.add('hidden');
+        document.getElementById('login-screen').classList.remove('hidden');
+        document.getElementById('login-screen').classList.remove('opacity-0');
+        
+        // Reset form
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+      }, 500);
+    }
+    
+    // On page load, check if already logged in
+    window.onload = async () => {
+      document.getElementById('loading-screen').classList.remove('hidden');
+      
+      try {
+        const res = await fetch(`${backendUrl}/auth/session`, {
+          credentials: 'include',
+        });
+        const data = await res.json();
+        
+        if (data.authenticated) {
+          setTimeout(() => {
+            document.getElementById('loading-screen').classList.add('opacity-0');
+            
+            setTimeout(() => {
+              document.getElementById('loading-screen').classList.add('hidden');
+              document.getElementById('admin-panel').classList.remove('hidden');
+              fetchVisitCount();
+              fetchUserIP();
+            }, 500);
+          }, 2000);
+        } else {
+          setTimeout(() => {
+            document.getElementById('loading-screen').classList.add('opacity-0');
+            
+            setTimeout(() => {
+              document.getElementById('loading-screen').classList.add('hidden');
+              document.getElementById('login-screen').classList.remove('hidden');
+            }, 500);
+          }, 2000);
+        }
+      } catch (err) {
+        setTimeout(() => {
+          document.getElementById('loading-screen').classList.add('opacity-0');
+          
+          setTimeout(() => {
+            document.getElementById('loading-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+          }, 500);
+        }, 2000);
+      }
+    };
+    
+    function fetchVisitCount() {
+      fetch('https://websitebackend-production-382f.up.railway.app/api/visits', {
+        credentials: 'include',
+      })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('visit-count').innerText = data.visits;
+        })
+        .catch(() => {
+          document.getElementById('visit-count').innerText = 'Error loading visits';
+        });
+    }
+    
+    function fetchUserIP() {
+      fetch('https://ipinfo.io/json')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('user-ip').innerText = data.ip;
+        })
+        .catch(() => {
+          document.getElementById('user-ip').innerText = "IP fetch failed";
+        });
+    }
+    
+    function togglePlay() {
+      const bgMusic = document.getElementById('bgMusic');
+      const btn = document.querySelector('button[onclick="togglePlay()"]');
+      
+      if (bgMusic.paused) {
+        bgMusic.play();
+        btn.innerHTML = '<i class="fas fa-pause"></i>';
+      } else {
+        bgMusic.pause();
+        btn.innerHTML = '<i class="fas fa-play"></i>';
+      }
+    }
+    
+    function toggleMute() {
+      const bgMusic = document.getElementById('bgMusic');
+      const btn = document.querySelector('button[onclick="toggleMute()"]');
+      
+      bgMusic.muted = !bgMusic.muted;
+      btn.innerHTML = bgMusic.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+    }
+    
+    function setVolume(val) {
+      document.getElementById('bgMusic').volume = val;
+    }
+    
+    function toggleToolbox() {
+      const toolbox = document.getElementById('toolbox');
+      const icon = document.getElementById('toolbox-icon');
+      const text = document.getElementById('toolbox-text');
+      
+      if (toolbox.classList.contains('hidden')) {
+        toolbox.classList.remove('hidden');
+        toolbox.classList.add('animate-fade-in');
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+        text.innerText = 'Collapse';
+      } else {
+        toolbox.classList.add('hidden');
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+        text.innerText = 'Expand';
+      }
+    }
+    
+    // Add shake animation to CSS
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+      }
+      .animate-shake {
+        animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
