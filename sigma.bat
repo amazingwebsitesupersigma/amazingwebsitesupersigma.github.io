@@ -8,3 +8,4 @@ echo ========================================
 echo        WELCOME TO OBLIVION SETUP
 echo ========================================
 echo.
+pause
