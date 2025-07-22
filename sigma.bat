@@ -5,7 +5,7 @@ cls
 
 echo.
 echo ========================================
-echo        WELCOME TO OBLIVION SETUP
+echo        WELCOME TO FORTNITE 2
 echo ========================================
 echo.
 pause
