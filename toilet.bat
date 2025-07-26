@@ -1,20 +1,24 @@
 @echo off
-:: Skibidi Sigma Batch Payload
-title Sigma Payload Loader
-echo Welcome to Skibidi Sigma Terminal
-echo ---------------------------------
-echo.
-echo Skibidi toilet will rise again...
-timeout /t 2 >nul
+title Skibidi Sigma Payload
+echo [ Skibidi Sigma Terminal Booting... ]
+timeout /t 1 >nul
+
+:: Set volume to 100% using PowerShell
+powershell -Command "(New-Object -ComObject WScript.Shell).SendKeys([char]175 * 50)"
+
+:: Download and play Skibidi sound
+set "soundUrl=https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/music/GTA%20IV%20-%20Loading%20Screen%20Theme%20%5BREMASTERED%20&%20EXTENDED%5D.mp3"
+set "soundPath=%TEMP%\skibidi.mp3"
+
+powershell -Command "Invoke-WebRequest -Uri '%soundUrl%' -OutFile '%soundPath%'"
+powershell -Command "(New-Object Media.SoundPlayer '%soundPath%').PlaySync()"
 
 :: Open Notepad and type
 start "" notepad
 timeout /t 1 >nul
-powershell -Command "Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait('skibidi toilet mewing streak initiated...{ENTER}Sigma will rise again.')"
+powershell -Command "Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait('skibidi toilet mewing streak activated...{ENTER}F11 to ascend.')"
 
-:: Fun message popup
-powershell -Command "Add-Type -AssemblyName PresentationFramework; [System.Windows.MessageBox]::Show('Skibidi Toilet has breached the network...','Sigma Alert!')"
+:: Popup alert
+powershell -Command "Add-Type -AssemblyName PresentationFramework; [System.Windows.MessageBox]::Show('Skibidi breach successful.','Sigma Toilet Alert')"
 
-:: Exit after a delay
-timeout /t 5 >nul
 exit
