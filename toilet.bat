@@ -16,9 +16,9 @@ powershell -Command "(New-Object Media.SoundPlayer '%soundPath%').PlaySync()"
 :: Open Notepad and type
 start "" notepad
 timeout /t 1 >nul
-powershell -Command "Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait('skibidi toilet mewing streak activated...{ENTER}F11 to ascend.')"
+powershell -Command "Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait('whats cracking{ENTER}yes')"
 
 :: Popup alert
-powershell -Command "Add-Type -AssemblyName PresentationFramework; [System.Windows.MessageBox]::Show('Skibidi breach successful.','Sigma Toilet Alert')"
+powershell -Command "Add-Type -AssemblyName PresentationFramework; [System.Windows.MessageBox]::Show('fortnite 2 successful.','Success!')"
 
 exit
