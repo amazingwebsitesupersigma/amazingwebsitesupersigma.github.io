@@ -4,7 +4,7 @@ powershell -Command "(New-Object -ComObject WScript.Shell).SendKeys([char]175 * 
 
 :: Define path and video URL
 set "videoPath=%TEMP%\skibidivideo.mp4"
-set "videoURL=https://example.com/skibidi.mp4"
+set "videoURL=https://github.com/amazingwebsitesupersigma/amazingwebsitesupersigma.github.io/raw/refs/heads/main/swagfortnite.mov"
 
 :: Download video
 powershell -Command "Invoke-WebRequest -Uri '%videoURL%' -OutFile '%videoPath%'"
