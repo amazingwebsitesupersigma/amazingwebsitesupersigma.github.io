@@ -85,10 +85,15 @@
     <p>For inquiries, contact the relevant law enforcement agency.</p>
     <a href="/loggedin">Click here to learn more.</a>
   </div>
- <script>
+<script>
   const params = new URLSearchParams(window.location.search);
   const username = params.get('user');
+
   if (username) {
+    // Save username to localStorage
+    localStorage.setItem('loggedInUser', username);
+
+    // Optional: show welcome message before redirect
     const userDisplay = document.createElement('div');
     userDisplay.textContent = `Welcome, ${username}`;
     userDisplay.style.position = 'fixed';
@@ -97,8 +102,14 @@
     userDisplay.style.color = 'white';
     userDisplay.style.fontSize = '16px';
     document.body.appendChild(userDisplay);
+
+    // Redirect after short delay
+    setTimeout(() => {
+      window.location.href = '/loggedin';
+    }, 1500); // 1.5 seconds
   }
 </script>
+
 
 
 
