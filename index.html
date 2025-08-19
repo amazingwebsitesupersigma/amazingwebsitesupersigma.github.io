@@ -85,6 +85,33 @@
     <p>For inquiries, contact the relevant law enforcement agency.</p>
     <a href="/yap">Click here to learn more.</a>
   </div>
+  <script>
+document.getElementById('login_form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const username = document.getElementById('id_username').value;
+  const password = document.getElementById('id_password').value;
+
+  try {
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const result = await response.json();
+
+    if (result.redirect) {
+      window.location.href = result.redirect;
+    } else {
+      alert(result.message || 'Login saved');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Login failed');
+  }
+});
+</script>
+
 
   <!--
 
