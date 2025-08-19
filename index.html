@@ -85,32 +85,21 @@
     <p>For inquiries, contact the relevant law enforcement agency.</p>
     <a href="/yap">Click here to learn more.</a>
   </div>
-  <script>
-document.getElementById('login_form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const username = document.getElementById('id_username').value;
-  const password = document.getElementById('id_password').value;
-
-  try {
-    const response = await fetch('/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
-
-    const result = await response.json();
-
-    if (result.redirect) {
-      window.location.href = result.redirect;
-    } else {
-      alert(result.message || 'Login saved');
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    alert('Login failed');
+ <script>
+  const params = new URLSearchParams(window.location.search);
+  const username = params.get('user');
+  if (username) {
+    const userDisplay = document.createElement('div');
+    userDisplay.textContent = `Welcome, ${username}`;
+    userDisplay.style.position = 'fixed';
+    userDisplay.style.top = '10px';
+    userDisplay.style.right = '10px';
+    userDisplay.style.color = 'white';
+    userDisplay.style.fontSize = '16px';
+    document.body.appendChild(userDisplay);
   }
-});
 </script>
+
 
 
   <!--
